@@ -21,6 +21,11 @@ brew update
 echo "Installing Git..."
 brew install git
 
+#echo "Copying dotfiles from Github"
+#cd ~
+#git clone --recursive git@github.com:bradp/dotfiles.git
+#rake
+
 echo "Git config"
 echo "user name?"
 read gitusername
@@ -49,41 +54,32 @@ brew cleanup
 echo "Upgrading brew"
 brew upgrade
 
-echo "Copying dotfiles from Github"
-cd ~
-git clone git@github.com:bradp/dotfiles.git .dotfiles
-cd .dotfiles
-sh symdotfiles
-
 echo "Grunting it up"
 npm install -g grunt-cli
 
 # Install zsh & Oh My Zsh
 echo "Installing Oh My ZSH..."
-curl -L http://install.ohmyz.sh | sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-echo "Setting up Oh My Zsh theme..."
-cd  /Users/crawling/.oh-my-zsh/themes
-curl https://raw.githubusercontent.com/pedromiba/macsetup/master/theme.zsh-theme > brad-muse.zsh-theme
+#echo "Setting up Oh My Zsh theme..."
+#cd  /Users/crawling/.oh-my-zsh/themes
+#curl https://raw.githubusercontent.com/pedromiba/macsetup/master/theme.zsh-theme > ~/.oh-my-zsh/themes/brad-muse.zsh-theme
 
 echo "Setting up Zsh plugins..."
-cd ~/.oh-my-zsh/custom/plugins
-git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 echo "Setting ZSH as shell..."
 chsh -s /bin/zsh
 
 echo "Setting up bash_aliases..."
 cd  ~
-curl https://raw.githubusercontent.com/pedromiba/macsetup/master/bash_aliases > .bash_aliases
+curl https://raw.githubusercontent.com/pedromiba/macsetup/master/bash_aliases > ~/.bash_aliases
 
 echo "Ignoring line endings"
 git config --global core.autocrlf true
 
 # Apps
 apps=(
-    alfred
-    caskroom/versions/firefoxdeveloperedition
     google-chrome
     iterm2
     visual-studio-code
@@ -111,9 +107,13 @@ then
     brew install --cask spotify
 fi
 
-brew --cask alfred link
+read -p "Do you want to install Alfred? (y/n) " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    brew install --cask alfred
+fi
 
-brew --cask cleanup
 brew cleanup
 
 echo "Setting some Mac settings..."
