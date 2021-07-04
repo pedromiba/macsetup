@@ -75,9 +75,6 @@ echo "Setting up bash_aliases..."
 cd  ~
 curl https://raw.githubusercontent.com/pedromiba/macsetup/master/bash_aliases > ~/.bash_aliases
 
-echo "Ignoring line endings"
-git config --global core.autocrlf true
-
 # Apps
 apps=(
     google-chrome
