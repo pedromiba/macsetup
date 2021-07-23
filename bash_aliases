@@ -14,9 +14,5 @@ alias a='echo "------------Your aliases------------";alias'
 # Apply changes to aliases
 alias sa='source ~/.bash_aliases;echo "Bash aliases sourced."'
 
-# Edit Aliases
-alias via='sudo vi ~/.bash_aliases'
-alias nia='sudo nano ~/.bash_aliases'
-
 # Clear Alias
 alias cls='clear'
